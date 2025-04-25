@@ -66,4 +66,4 @@ Les réponses sont au format JSON. Exemple pour une requête réussie :
 Le service utilise deux services externes pour enrichir les données :
 
 Service Inscription : Défini par https://api-service-inscription.onrender.com/getStudent.php, utilisé pour récupérer les noms des étudiants.
-Service Cours : Défini par [COURS_API_URL](https://api-cours.onrender.com/getCours.php), utilisé pour récupérer les noms des cours.
+Service Cours : Défini par https://api-cours.onrender.com/getCours.php, utilisé pour récupérer les noms des cours.
