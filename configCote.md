@@ -1,17 +1,42 @@
 # Service Cote
 
-Le `serviceCote' est un service PHP qui permet de gérer les côtes (notes) des étudiants pour différents cours. Il prend en charge les opérations de récupération et d'ajout de côtes via des requêtes HTTP.
+Ce projet est un service PHP permettant de gérer les côtes (notes) des étudiants pour différents cours. Il interagit avec des services externes pour enrichir les données avec les noms des étudiants et des cours.
 
 ## Fonctionnalités
 
-### 1. Récupération des côtes (GET)
-Le service permet de récupérer les côtes en fonction des paramètres fournis :
-- **Toutes les côtes** : Si aucun paramètre n'est fourni.
-- **Côtes pour un étudiant spécifique** : Si `etudiant_id` est fourni.
-- **Côtes pour un cours spécifique** : Si `code_cours` est fourni.
-- **Côtes pour un étudiant dans un cours spécifique** : Si `etudiant_id` et `code_cours` sont fournis.
+Le service prend en charge les cas suivants :
 
-#### Exemple de réponse
+1. **Récupération de toutes les côtes**  
+   - Retourne toutes les côtes enregistrées dans la base de données.
+   - **URL** : `https://api-service-cote.onrender.com/serviceCote.php`
+   - **Paramètres** : Aucun.
+
+2. **Récupération des côtes pour un étudiant spécifique**  
+   - Retourne les côtes d'un étudiant donné.
+   - **URL** : `https://api-service-cote.onrender.com/serviceCote.php`
+   - **Paramètres** : `etudiant_id`.
+
+3. **Récupération des côtes pour un cours spécifique**  
+   - Retourne les côtes d'un cours donné.
+   - **URL** : `https://api-service-cote.onrender.com/serviceCote.php`
+   - **Paramètres** : `code_cours`.
+
+4. **Récupération des côtes pour un étudiant dans un cours spécifique**  
+   - Retourne les côtes d'un étudiant pour un cours donné.
+   - **URL** : `https://api-service-cote.onrender.com/serviceCote.php`
+   - **Paramètres** : `etudiant_id`, `code_cours`.
+
+5. **Ajout de nouvelles côtes**  
+   - Permet d'ajouter plusieurs côtes en une seule requête.
+   - **URL** : `https://api-service-cote.onrender.com/serviceCote.php`
+   - **Méthode** : POST
+   - **Données** : Tableau JSON contenant les champs `etudiant_id`, `code_cours`, et `valeur`.
+
+## Structure des Réponses
+
+Les réponses sont au format JSON. Exemple pour une requête réussie :
+
+### Récupération des côtes
 ```json
 {
   "cotes": [
@@ -25,45 +50,20 @@ Le service permet de récupérer les côtes en fonction des paramètres fournis 
   ]
 }
 
-
-### 2. Ajout de côtes (POST)
-
-Le service permet d'ajouter plusieurs côtes en une seule requête. Les données doivent être envoyées au format JSON avec un tableau d'objets contenant les champs suivants :
-
-etudiant_id : Identifiant de l'étudiant.
-code_cours : Code du cours.
-valeur : Valeur de la côte (doit être un nombre).
-
-[
-  {
-    "etudiant_id": "123",
-    "code_cours": "MATH101",
-    "valeur": 15
-  },
-  {
-    "etudiant_id": "124",
-    "code_cours": "PHYS101",
-    "valeur": 18
-  }
-]
-
-Exemple de données envoyées
-
+## Ajout de côtes
 {
   "success": true,
   "message": "Côtes enregistrées avec succès"
 }
 
-Exemple de réponse en cas d'erreur
-
+## En cas d'erreur
 {
   "success": false,
   "message": "Erreur lors de l'enregistrement pour un élément"
 }
 
-Dépendances
+## Dépendances
+Le service utilise deux services externes pour enrichir les données :
 
-Le service dépend des services externes suivants pour enrichir les données :
-
-Service Inscription. : Utilisé pour récupérer les noms des étudiants.
-Service Cours : Utilisé pour récupérer les noms des cours.
+Service Inscription : Défini par https://api-service-inscription.onrender.com/getStudent.php, utilisé pour récupérer les noms des étudiants.
+Service Cours : Défini par [COURS_API_URL](https://api-cours.onrender.com/getCours.php), utilisé pour récupérer les noms des cours.
