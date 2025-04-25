@@ -10,11 +10,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once 'config/database.php';
 
-// Définition des URL des services externes
-define('INSCRIPTION_API_URL', 'http://localhost/serviceInscription/getStudent.php');
-define('COURS_API_URL', 'http://localhost/serviceCours/getCours.php');
 
-// Fonctions utilitaires
+define('INSCRIPTION_API_URL', 'https://api-service-inscription.onrender.com/getStudent.php');
+define('COURS_API_URL', 'https://api-cours.onrender.com/getCours.php');
+
+
 function getNomEtudiant($id) {
     $url = INSCRIPTION_API_URL . '?etudiant_id=' . urlencode($id);
     $response = @file_get_contents($url);
